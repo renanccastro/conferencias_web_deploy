@@ -180,6 +180,26 @@
                         <flush-strategy>IdleConnections</flush-strategy>
                     </pool>
                 </datasource>
+                <datasource jta="true" jndi-name="java:jboss/datasources/lipjavaDS" pool-name="lipjavaDS" enabled="true" use-java-context="true" use-ccm="true">
+                  <connection-url>jdbc:postgresql://${env.OPENSHIFT_POSTGRESQL_DB_HOST}:${env.OPENSHIFT_POSTGRESQL_DB_PORT}/${env.OPENSHIFT_APP_NAME}</connection-url>
+                  <driver>postgresql</driver>
+                  <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                  <pool>
+                      <min-pool-size>5</min-pool-size>
+                      <max-pool-size>30</max-pool-size>
+                      <prefill>true</prefill>
+                      <use-strict-min>false</use-strict-min>
+                      <flush-strategy>FailingConnectionOnly</flush-strategy>
+                  </pool>
+                  <security>
+                      <user-name>${env.OPENSHIFT_POSTGRESQL_DB_USERNAME}</user-name>
+                      <password>${env.OPENSHIFT_POSTGRESQL_DB_PASSWORD}</password>
+                  </security>
+                  <statement>
+                      <prepared-statement-cache-size>32</prepared-statement-cache-size>
+                  </statement>
+              </datasource>
+
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
@@ -212,8 +232,7 @@
                     <managed-thread-factory name="default" jndi-name="java:jboss/ee/concurrency/factory/default" context-service="default"/>
                 </managed-thread-factories>
             </concurrent>
-            <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:jboss/datasources/ExampleDS" jms-connection-factory="java:jboss/DefaultJMSConnectionFactory" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>
-        </subsystem>
+            <default-bindings context-service="java:jboss/ee/concurrency/context/default" datasource="java:jboss/datasources/lipjavaDS" jms-connection-factory="java:jboss/DefaultJMSConnectionFactory" managed-executor-service="java:jboss/ee/concurrency/executor/default" managed-scheduled-executor-service="java:jboss/ee/concurrency/scheduler/default" managed-thread-factory="java:jboss/ee/concurrency/factory/default"/>        </subsystem>
         <subsystem xmlns="urn:jboss:domain:ejb3:2.0">
             <session-bean>
                 <stateful default-access-timeout="5000" cache-ref="distributable" passivation-disabled-cache-ref="simple"/>
@@ -323,7 +342,7 @@
         <subsystem xmlns="urn:jboss:domain:jdr:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jgroups:2.0" default-stack="tcp">
             <stack name="tcp">
-                <transport type="TCP" socket-binding="jgroups-tcp"> 
+                <transport type="TCP" socket-binding="jgroups-tcp">
                     <property name="external_addr">${env.OPENSHIFT_GEAR_DNS}</property>
                     <property name="external_port">${env.OPENSHIFT_WILDFLY_CLUSTER_PROXY_PORT}</property>
                     <property name="bind_port">${env.OPENSHIFT_WILDFLY_CLUSTER_PORT}</property>
@@ -351,7 +370,7 @@
                 <protocol type="pbcast.GMS"/>
                 <protocol type="UFC"/>
                 <protocol type="MFC"/>
-                <protocol type="FRAG2"/>  
+                <protocol type="FRAG2"/>
                 <!--protocol type="pbcast.STATE_TRANSFER"/>
                 <protocol type="pbcast.FLUSH"/-->
             </stack>
@@ -367,6 +386,9 @@
         <subsystem xmlns="urn:jboss:domain:jsf:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jsr77:1.0"/>
         <subsystem xmlns="urn:jboss:domain:mail:2.0">
+            <mail-session name="MandrillLipjava" jndi-name="java:jboss/mail/MandrillLipjava">
+                <smtp-server outbound-socket-binding-ref="smtp-mandrillapp" tls="true" username="b3f834d4-4513-43ce-b02a-20d1b5a8f422" password="b3f834d4-4513-43ce-b02a-20d1b5a8f422"/>
+            </mail-session>
             <mail-session name="default" jndi-name="java:jboss/mail/Default">
                 <smtp-server outbound-socket-binding-ref="mail-smtp"/>
             </mail-session>
@@ -538,7 +560,7 @@
         <interface name="unsecure">
             <!--
               ~  Used for IIOP sockets in the standard configuration.
-              ~                  To secure JacORB you need to setup SSL 
+              ~                  To secure JacORB you need to setup SSL
               -->
             <inet-address value="${env.OPENSHIFT_WILDFLY_IP}"/>
         </interface>
