@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:lj="http://xmlns.jcp.org/jsf/composite/components" xmlns:pretty="http://ocpsoft.com/prettyfaces">
+<ui:composition template="/resources/templates/template-core.xhtml">
+    <ui:param name="abaAtual" value="MENSAGENS"/>
+    <ui:define name="cabecalho">
+        <h1>Mensagens Enviadas</h1>
+    </ui:define>
+    <ui:define name="conteudo">
+        <h:form id="form">
+            <lj:messages/>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <pretty:link mappingId="mensagem-nova" styleClass="btn btn-default">
+                        <i class="glyphicon glyphicon-plus"></i> novo
+                    </pretty:link>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p:dataTable value="#{mensagemController.mensagens}" reflow="true" var="mensagem"
+                                 paginator="true" rows="20" paginatorPosition="bottom" widgetVar="mensagensTable">
+                        <p:column headerText="Criador" filterMatchMode="contains" filterBy="#{post.usuario.nome}">
+                            #{mensagem.criador.nome}
+                        </p:column>
+                        <p:column headerText="Título" filterMatchMode="contains" filterBy="#{post.titulo}">
+                            #{mensagem.titulo}
+                        </p:column>
+                        <p:column headerText="Mensagem" filterMatchMode="contains" filterBy="#{post.titulo}">
+                            #{mensagem.mensagem}
+                        </p:column>
+
+                        <p:column headerText="Data de Criação" filterMatchMode="contains" filterBy="#{mensagem.dataHoraCriacao}">
+                            <h:outputText value="#{mensagem.dataHoraCriacao}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Data de Envio" filterMatchMode="contains" filterBy="#{post.dataHoraCriacao}">
+                            <h:outputText value="#{mensagem.dataHoraEnvio}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column filterBy="#{mensagem.enviado}" headerText="Enviado" style="text-align: center;" filterMatchMode="equals">
+                            <f:facet name="filter">
+                                <p:selectOneButton onchange="PF('mensagensTable').filter()">
+                                    <f:converter converterId="javax.faces.Boolean" />
+                                    <f:selectItem itemLabel="Todos" itemValue="" />
+                                    <f:selectItem itemLabel="Sim" itemValue="true" />
+                                    <f:selectItem itemLabel="Não" itemValue="false" />
+                                </p:selectOneButton>
+                            </f:facet>
+                            <i class="fa #{mensagem.enviado ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                        </p:column>
+
+                        <p:column headerText="Ações">
+                            <h:commandLink onclick="return confirm('Deseje realmente enviar agora?')"
+                                           action="#{mensagemController.enviar(mensagem)}"
+                                           styleClass="btn btn-success btn-block"
+                                           rendered="#{!mensagem.enviado}" >
+                                <i class="fa fa-paper-plane"></i> Enviar
+                            </h:commandLink>
+                            <pretty:link mappingId="mensagem" styleClass="btn btn-info btn-block" rendered="#{!mensagem.enviado}">
+                                <i class="glyphicon glyphicon-pencil"></i> Editar
+                                <f:param value="#{mensagem.id}"/>
+                            </pretty:link>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</html>

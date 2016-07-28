@@ -1,3 +1,11 @@
-The OpenShift `jbossas` cartridge documentation can be found at:
+# Processo Seletivo Java EE #
 
-https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-jbossas/README.md
+
+As instruções se encontram na pasta docs.
+
+
+São dois documentos ambos duplicados em formato PDF e docx:
+
+* 01-Dev-JavaEE-InstrucoesProva
+
+* 02-Dev-JavaEE-ConfiguracaoProjeto

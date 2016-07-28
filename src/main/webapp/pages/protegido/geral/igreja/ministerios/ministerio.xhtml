@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:lj="http://xmlns.jcp.org/jsf/composite/components" xmlns:pretty="http://ocpsoft.com/prettyfaces">
+<ui:composition template="/resources/templates/template-core.xhtml">
+    <ui:param name="abaAtual" value="IGREJA_MINISTERIOS"/>
+    <ui:define name="cabecalho">
+        <h3>Ministério: #{ministerioController.ministerio.nome}</h3>
+    </ui:define>
+    <ui:define name="conteudo">
+        <h:form id="form" enctype="multipart/form-data">
+            <lj:messages/>
+            <div class="text-center row">
+                <div class="col-lg-6 text-center">
+                    <img id="uploadImageChange" src="#{ministerioController.ministerio.imagem}"
+                                      width="350px" height="250px" style="background-color: gray;"></img>
+                        <div class="form-group" >
+                            <div class="">
+                                <label class="btn btn-primary btn-block">
+
+                                    <i class="glyphicon glyphicon-floppy-disk"></i> Procurar imagem <p:fileUpload required="true" requiredMessage="Coloque uma prévia." widgetVar="upload" onload="setImagePreview()" value="#{ministerioController.file}" mode="simple" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="display: none;"/>
+                                </label>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Nome</label>
+                <h:inputText value="#{ministerioController.ministerio.nome}" required="true" requiredMessage="Digite o nome." styleClass="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Líder</label><br></br>
+                <h:selectOneMenu value="#{ministerioController.ministerio.lider}" converter="genericEntityConverter" styleClass="selectpicker">
+                    <f:selectItem itemLabel="Selecione um ..." itemValue="#{null}" />
+                    <f:selectItems value="#{ministerioController.usuarios}" var="user" itemLabel="#{user.nome} - #{user.email}">
+                    </f:selectItems>
+                </h:selectOneMenu>
+            </div>
+            <div class="form-group">
+                <label>Descrição</label>
+                <p:editor value="#{ministerioController.ministerio.descricao}"/>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h:commandLink action="#{ministerioController.salvar}" styleClass="btn btn-default">
+                        <i class="glyphicon glyphicon-floppy-disk"></i> salvar
+                    </h:commandLink>
+                    <pretty:link mappingId="ministerios" styleClass="btn btn-default">
+                        <i class="glyphicon glyphicon-arrow-left"></i> voltar
+                    </pretty:link>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</html>

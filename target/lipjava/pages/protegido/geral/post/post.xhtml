@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:lj="http://xmlns.jcp.org/jsf/composite/components" xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/templates/template-core.xhtml">
+    <ui:param name="abaAtual" value="POSTS"/>
+    <ui:define name="cabecalho">
+        <h1>Post: #{postController.post.titulo}</h1>
+    </ui:define>
+    <ui:define name="conteudo">
+        <h:form id="form" enctype="multipart/form-data">
+            <lj:messages/>
+
+            <div class="form-group">
+                <label>Título</label>
+                <h:inputText value="#{postController.post.titulo}" styleClass="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Conteúdo</label>
+                <p:editor value="#{postController.post.conteudo}"/>
+            </div>
+            <div class="form-group">
+                <label>Tags:</label>
+                <div id="tag-div">
+                    <p:remoteCommand name="removeTag" actionListener="#{postController.removeTag}" style="display: none;" />
+                    <ui:repeat value="#{of:setToList(postController.post.tags)}" var="tag">
+                        <div id="#{tag.titulo}" class="external-event bg-green" onclick="if(confirm('Deseja remover a tag?')) removeTag([{name:'titulo', value:'#{tag.titulo}'}]);">#{tag.titulo}</div>
+                    </ui:repeat>
+                </div>
+                <div class="input-group col-lg-2">
+                    <h:inputText styleClass="form-control" binding="#{input1}" />
+                <span class="input-group-btn">
+                <h:commandLink action="#{postController.adicionarTag(input1.value)}" styleClass="btn btn-default">
+                    <i class="glyphicon glyphicon-plus"></i> adicionar
+                </h:commandLink>
+                </span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h:commandLink action="#{postController.salvar}" styleClass="btn btn-default">
+                        <i class="glyphicon glyphicon-floppy-disk"></i> salvar
+                    </h:commandLink>
+                    <pretty:link mappingId="posts" styleClass="btn btn-default">
+                        <i class="glyphicon glyphicon-arrow-left"></i> voltar
+                    </pretty:link>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</html>

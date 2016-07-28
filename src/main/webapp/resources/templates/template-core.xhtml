@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:lj="http://java.sun.com/jsf/composite/components" xmlns:pretty="http://ocpsoft.com/prettyfaces">
+
+<ui:composition template="template.xhtml">
+    <ui:define name="css">
+        <h:outputStylesheet name="assets/css/menu.css" rel="stylesheet"/>
+    </ui:define>
+
+    <!--<ui:define name="css">-->
+    <!--<h:outputStylesheet name="assets/css/dashboard.css" rel="stylesheet"/>-->
+    <!--</ui:define>-->
+    <ui:define name="corpo">
+        <div class="wrapper">
+
+            <!-- Main Header -->
+            <header class="main-header">
+
+                <!-- Logo -->
+                <pretty:link mappingId="home" class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini"><b>S</b>L</span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><b>Sow</b>Life</span>
+                </pretty:link>
+
+                <!-- Header Navbar -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <h:outputLink value="#{request.contextPath}/sair/"><i
+                                        class="glyphicon glyphicon-log-out"></i> Sair</h:outputLink>
+                            </li>
+
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <!-- Menu toggle button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the messages -->
+                                        <ul class="menu">
+                                            <li><!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+
+                                                        <!-- User Image -->
+                                                        <h:graphicImage library="img" name="user2-160x160.jpg"
+                                                                        class="img-circle" alt="User Image"/>
+                                                    </div>
+                                                    <!-- Message title and timestamp -->
+                                                    <h4>
+                                                        Support Team
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <!-- The message -->
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li><!-- end message -->
+                                        </ul><!-- /.menu -->
+                                    </li>
+                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                </ul>
+                            </li><!-- /.messages-menu -->
+
+                            <!-- Notifications Menu -->
+                            <li class="dropdown notifications-menu">
+                                <!-- Menu toggle button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">10</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 10 notifications</li>
+                                    <li>
+                                        <!-- Inner Menu: contains the notifications -->
+                                        <ul class="menu">
+                                            <li><!-- start notification -->
+                                                <a href="#">
+                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                </a>
+                                            </li><!-- end notification -->
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">View all</a></li>
+                                </ul>
+                            </li>
+                            <!-- Tasks Menu -->
+                            <li class="dropdown tasks-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span class="label label-danger">9</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 9 tasks</li>
+                                    <li>
+                                        <!-- Inner menu: contains the tasks -->
+                                        <ul class="menu">
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <!-- Task title and progress text -->
+                                                    <h3>
+                                                        Design some buttons
+                                                        <small class="pull-right">20%</small>
+                                                    </h3>
+                                                    <!-- The progress bar -->
+                                                    <div class="progress xs">
+                                                        <!-- Change the css width attribute to simulate progress -->
+                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                             role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                             aria-valuemax="100">
+                                                            <span class="sr-only">20% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li><!-- end task item -->
+                                        </ul>
+                                    </li>
+                                    <li class="footer">
+                                        <a href="#">View all tasks</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- User Account Menu -->
+                            <li class="dropdown user user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <!-- The user image in the navbar-->
+                                    <img src="#{baseController.userPicture}" class="user-image" alt="User Image"></img>
+                                    <!--<h:graphicImage library="img" name="user2-160x160.jpg"  />-->
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                    <span class="hidden-xs">${baseController.userName}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- The user image in the menu -->
+                                    <li class="user-header">
+                                        <lj:profileImage imgSource="#{baseController.userPicture}"></lj:profileImage>
+                                        <!--<img src="#{baseController.userPicture}" class="img-circle" alt="User Image"></img>-->
+                                        <p>
+                                            ${baseController.userName}
+                                            <small>Membro desde ${baseController.createdDateLoggedUser}</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <pretty:link mappingId="perfil"
+                                                         class="btn btn-default btn-flat">Perfil</pretty:link>
+                                        </div>
+                                        <div class="pull-right">
+                                            <h:outputLink value="#{request.contextPath}/sair/"
+                                                          class="btn btn-default btn-flat"><i
+                                                    class="glyphicon glyphicon-log-out"></i> Sair</h:outputLink>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Control Sidebar Toggle Button -->
+                            <li>
+                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar">
+
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <lj:profileImage imgSource="#{baseController.userPicture}"
+                                             preferredWidth="45px"></lj:profileImage>
+                            <!--<h:graphicImage library="img" name="user2-160x160.jpg" class="img-circle" alt="User Image"/>-->
+                        </div>
+                        <div class="pull-left info">
+                            <p>#{baseController.userName}</p>
+                            <!-- Status -->
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>
+
+                    <!-- search form (Optional) -->
+                    <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control search-menu-box" placeholder="Procurar..."/>
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i
+                        class="fa fa-search"></i></button>
+              </span>
+                        </div>
+                    </form>
+                    <!-- /.search form -->
+
+                    <!-- Sidebar Menu -->
+                    <lj:menu/>
+                    <!--<ul class="sidebar-menu">-->
+                    <!--<li class="header">HEADER</li>-->
+                    <!--&lt;!&ndash; Optionally, you can add icons to the links &ndash;&gt;-->
+                    <!--<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>-->
+                    <!--<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>-->
+                    <!--<li class="treeview">-->
+                    <!--<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>-->
+                    <!--<ul class="treeview-menu">-->
+                    <!--<li><a href="#">Link in level 2</a></li>-->
+                    <!--<li><a href="#">Link in level 2</a></li>-->
+                    <!--</ul>-->
+                    <!--</li>-->
+                    <!--</ul>&lt;!&ndash; /.sidebar-menu &ndash;&gt;-->
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <ui:insert name="cabecalho">
+                    </ui:insert>
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <ui:insert name="conteudo">
+                    </ui:insert>
+
+                    <!-- Your Page Content Here -->
+                    <!--<p:editor/>-->
+
+                </section><!-- /.content -->
+            </div><!-- /.content-wrapper -->
+
+            <!-- Main Footer -->
+            <!--<footer class="main-footer">-->
+                <!--&lt;!&ndash; To the right &ndash;&gt;-->
+                <!--<div class="pull-right hidden-xs">-->
+                    <!--Anything you want-->
+                <!--</div>-->
+                <!--&lt;!&ndash; Default to the left &ndash;&gt;-->
+                <!--<strong>Copyright 2015 <a href="#">Company</a>.</strong> All rights reserved.-->
+            <!--</footer>-->
+
+            <!--&lt;!&ndash; Control Sidebar &ndash;&gt;-->
+            <!--<aside class="control-sidebar control-sidebar-dark">-->
+                <!--&lt;!&ndash; Create the tabs &ndash;&gt;-->
+                <!--<ul class="nav nav-tabs nav-justified control-sidebar-tabs">-->
+                    <!--<li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a>-->
+                    <!--</li>-->
+                    <!--<li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>-->
+                <!--</ul>-->
+                <!--&lt;!&ndash; Tab panes &ndash;&gt;-->
+                <!--<div class="tab-content">-->
+                    <!--&lt;!&ndash; Home tab content &ndash;&gt;-->
+                    <!--<div class="tab-pane active" id="control-sidebar-home-tab">-->
+                        <!--<h3 class="control-sidebar-heading">Recent Activity</h3>-->
+                        <!--<ul class="control-sidebar-menu">-->
+                            <!--<li>-->
+                                <!--<a href="javascript::;">-->
+                                    <!--<i class="menu-icon fa fa-birthday-cake bg-red"></i>-->
+                                    <!--<div class="menu-info">-->
+                                        <!--<h4 class="control-sidebar-subheading">Langdon's Birthday</h4>-->
+                                        <!--<p>Will be 23 on April 24th</p>-->
+                                    <!--</div>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        <!--</ul>&lt;!&ndash; /.control-sidebar-menu &ndash;&gt;-->
+
+                        <!--<h3 class="control-sidebar-heading">Tasks Progress</h3>-->
+                        <!--<ul class="control-sidebar-menu">-->
+                            <!--<li>-->
+                                <!--<a href="javascript::;">-->
+                                    <!--<h4 class="control-sidebar-subheading">-->
+                                        <!--Custom Template Design-->
+                                        <!--<span class="label label-danger pull-right">70%</span>-->
+                                    <!--</h4>-->
+                                    <!--<div class="progress progress-xxs">-->
+                                        <!--<div class="progress-bar progress-bar-danger" style="width: 70%"></div>-->
+                                    <!--</div>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        <!--</ul>&lt;!&ndash; /.control-sidebar-menu &ndash;&gt;-->
+
+                    <!--</div>&lt;!&ndash; /.tab-pane &ndash;&gt;-->
+                    <!--&lt;!&ndash; Stats tab content &ndash;&gt;-->
+                    <!--<div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>&lt;!&ndash; /.tab-pane &ndash;&gt;-->
+                    <!--&lt;!&ndash; Settings tab content &ndash;&gt;-->
+                    <!--<div class="tab-pane" id="control-sidebar-settings-tab">-->
+                        <!--<form method="post">-->
+                            <!--<h3 class="control-sidebar-heading">General Settings</h3>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="control-sidebar-subheading">-->
+                                    <!--Report panel usage-->
+                                    <!--<input type="checkbox" class="pull-right"/>-->
+                                <!--</label>-->
+                                <!--<p>-->
+                                    <!--Some information about this general settings option-->
+                                <!--</p>-->
+                            <!--</div>&lt;!&ndash; /.form-group &ndash;&gt;-->
+                        <!--</form>-->
+                    <!--</div>&lt;!&ndash; /.tab-pane &ndash;&gt;-->
+                <!--</div>-->
+            <!--</aside>&lt;!&ndash; /.control-sidebar &ndash;&gt;-->
+            <!-- Add the sidebar's background. This div must be placed
+                 immediately after the control sidebar -->
+            <!--<div class="control-sidebar-bg"></div>-->
+        </div><!-- ./wrapper -->
+
+
+        <!--<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">-->
+        <!--<div class="container-fluid">-->
+        <!--<div class="navbar-header">-->
+        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">-->
+        <!--<span class="sr-only">Toggle navigation</span>-->
+        <!--<span class="icon-bar"></span>-->
+        <!--<span class="icon-bar"></span>-->
+        <!--<span class="icon-bar"></span>-->
+        <!--</button>-->
+        <!--<pretty:link mappingId="home" styleClass="navbar-brand">Ágape</pretty:link>-->
+        <!--</div>-->
+        <!--<div class="navbar-collapse collapse">-->
+        <!--<ul class="nav navbar-nav navbar-right">-->
+        <!--<li>-->
+        <!--<pretty:link mappingId="perfil">Perfil</pretty:link>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<h:outputLink value="#{request.contextPath}/sair/"><i-->
+        <!--class="glyphicon glyphicon-log-out"></i> Sair</h:outputLink>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="container-fluid">-->
+        <!--<div class="row">-->
+        <!--<div class="col-xs-12 sidebar-mobile">-->
+        <!--<lj:menu/>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<div class="col-sm-3 col-md-2 sidebar">-->
+        <!--<lj:menu/>-->
+        <!--</div>-->
+        <!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+        <!--<h1 class="page-header">-->
+        <!--<ui:insert name="cabecalho"></ui:insert>-->
+        <!--</h1>-->
+
+        <!--<ui:insert name="conteudo">-->
+        <!--</ui:insert>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<ui:insert name="footer">-->
+        <!--<div class="row">-->
+        <!--<div class="col-xs-12">-->
+        <!--<footer class="al-right center-phone">-->
+        <!--<hr/>-->
+        <!--<a href="http://tecsinapse.com.br/" target="_blank"><img-->
+        <!--src="#{request.contextPath}/resources/assets/img/powered-by-ts-3.gif"-->
+        <!--alt="TecSinapse"/></a>-->
+        <!--</footer>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</ui:insert>-->
+
+    </ui:define>
+</ui:composition>
+
+</html>

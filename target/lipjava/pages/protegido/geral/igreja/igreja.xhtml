@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:lj="http://xmlns.jcp.org/jsf/composite/components" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/templates/template-core.xhtml">
+    <ui:param name="abaAtual" value="IGREJA_DETALHES"/>
+    <ui:define name="cabecalho">
+        <h1>Igreja</h1>
+    </ui:define>
+    <ui:define name="conteudo">
+        <div class="text-center row">
+            <div class="col-lg-4 col-lg-offset-4 text-center">
+                <lj:profileImage id="uploadImageChange" imgSource="#{baseController.churchImage}"
+                                 preferredWidth="100px" preferredHeight="100px" responsive="false"></lj:profileImage>
+                <h:form id="imageForm" enctype="multipart/form-data">
+                    <div class="form-group" >
+                        <div class="">
+                            <label class="btn btn-primary btn-block">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Procurar imagem <p:fileUpload widgetVar="upload" onload="setImagePreview()" value="#{igrejaController.file}" mode="simple" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="display: none;"/>
+                            </label>
+                        </div>
+                        <div class="">
+                            <h:commandLink action="#{igrejaController.salvarImagem}" styleClass="btn btn-success btn-block">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Salvar imagem
+                            </h:commandLink>
+                        </div>
+                    </div>
+                </h:form>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <h:form id="form" enctype="multipart/form-data">
+                        <lj:messages/>
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <h:inputText required="true"
+                                         requiredMessage="Por favor, coloque o nome da igreja."
+                                         value="#{igrejaController.igrejaObj.nome}" styleClass="form-control"/>
+
+                            <label>Email</label>
+                            <h:inputText id="email" required="true" label="email" size="40"
+                                         requiredMessage="Por favor, coloque o email da igreja."
+                                         validatorMessage="Formato de email Inválido."
+                                         styleClass="form-control"
+                                         value="#{igrejaController.igrejaObj.email}">
+                                <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </h:inputText>
+
+                            <label>Endereço</label>
+                            <h:inputText required="true"
+                                         requiredMessage="Por favor, coloque o endereço igreja."
+                                         value="#{igrejaController.igrejaObj.endereco}" styleClass="form-control"/>
+
+                            <label>Telefone</label>
+                            <p:inputMask value="#{igrejaController.igrejaObj.telefone}" mask="(99) 9999-9999?9" styleClass="form-control"/>
+
+                            <label>Facebook</label>
+                            <h:inputText value="#{igrejaController.igrejaObj.facebook}" styleClass="form-control"/>
+                            <label>Instagram</label>
+                            <h:inputText value="#{igrejaController.igrejaObj.instagram}" styleClass="form-control"/>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h:commandLink action="#{igrejaController.salvar}" styleClass="btn btn-default">
+                                    <i class="glyphicon glyphicon-floppy-disk"></i> Salvar
+                                </h:commandLink>
+                            </div>
+                        </div>
+                </h:form>
+            </div>
+        </div>
+
+</ui:define>
+
+</ui:composition>
+
+</html>

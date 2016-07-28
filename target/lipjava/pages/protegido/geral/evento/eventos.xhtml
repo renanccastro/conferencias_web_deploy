@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:lj="http://xmlns.jcp.org/jsf/composite/components" xmlns:pretty="http://ocpsoft.com/prettyfaces">
+<ui:composition template="/resources/templates/template-core.xhtml">
+    <ui:param name="abaAtual" value="EVENTOS"/>
+    <ui:define name="conteudo">
+        <p:growl id="messages" showDetail="true" />
+        <h:form>
+            <h:panelGrid columnClasses="value">
+                <h3 style="margin-top: 0">Eventos</h3>
+
+                <p:schedule id="schedule" value="#{eventoController}"
+                            widgetVar="myschedule"
+                            timeZone="GMT-3"
+                            locale="pt">
+
+
+                <p:ajax event="dateSelect" listener="#{eventoController.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="eventSelect" listener="#{eventoController.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="eventMove" listener="#{eventoController.onEventMove}" update="messages" />
+                    <p:ajax event="eventResize" listener="#{eventoController.onEventResize}" update="messages" />
+
+                </p:schedule>
+
+            </h:panelGrid>
+
+            <p:dialog widgetVar="eventDialog" header="Detalhes do evento" showEffect="clip" hideEffect="clip">
+
+                <h:panelGrid id="eventDetails" columns="2">
+                    <p:outputLabel for="title" value="Título:" />
+                    <p:inputText id="title" value="#{eventoController.evento.nome}" required="true" />
+
+                    <p:outputLabel for="from" value="Início:" />
+                    <p:calendar id="from" value="#{eventoController.evento.startDate}" required="true" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm"/>
+
+                    <p:outputLabel for="to" value="Fim:" />
+                    <p:calendar id="to" value="#{eventoController.evento.endDate}" required="true" timeZone="GMT-3" pattern="dd/MM/yyyy HH:mm"/>
+
+                    <!--<p:outputLabel for="allDay" value="Dia Inteiro:" />-->
+                    <!--<p:selectBooleanCheckbox id="allDay" value="#{eventoController.event.allDay}" />-->
+
+                    <p:outputLabel for="onlineEvent" value="Evento online?"  />
+
+                    <p:selectBooleanCheckbox id="onlineEvent" binding="#{checkbox}">
+                        <p:ajax event="change" update="online online2" />
+                    </p:selectBooleanCheckbox>
+                    <h:panelGrid id="online2" >
+                        <p:outputLabel for="url" value="URL do evento:" rendered="#{checkbox.value}" />
+                    </h:panelGrid>
+                    <h:panelGrid id="online" >
+                        <p:inputText id="url" value="#{eventoController.evento.onlineUrl}" required="true" rendered="#{checkbox.value}" widgetVar="url"/><br></br>
+                    </h:panelGrid>
+
+                    <p:outputLabel for="recurringCheckbox" value="Recorrente?"  />
+                    <p:selectBooleanCheckbox id="recurringCheckbox" binding="#{recurring}">
+                        <p:ajax event="change" update="recurring recurring2" onevent="enableSelectPicker" />
+                    </p:selectBooleanCheckbox>
+                    <h:panelGrid id="recurring2" >
+                        <p:outputLabel for="recurringSelect" value="Frequência:" rendered="#{recurring.value}"/>
+                    </h:panelGrid>
+                    <h:panelGrid id="recurring">
+                        <h:selectOneMenu id="recurringSelect" value="#{eventoController.evento.recorrencia}"  rendered="#{recurring.value}">
+                            <f:selectItem itemLabel="Selecione um ..." />
+                            <f:selectItems value="#{eventoController.recurringValues}">
+                            </f:selectItems>
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+
+                    <br></br>
+
+                    <!--<p:outputLabel for="periodicidade" value="Periodicidade:" />-->
+                    <!--<h:selectOneMenu id="periodicidade" value="#{usuarioController.usuario.role}" styleClass="selectpicker">-->
+                        <!--<f:selectItems value="#{usuarioController.available2Roles}" var="role"/>-->
+                    <!--</h:selectOneMenu>-->
+                    <h:panelGrid id="actions" columns="2">
+                        <p:commandButton id="addButton" value="Salvar" update="eventDetails" actionListener="#{eventoController.addEvent}" oncomplete="if (!args.validationFailed) {PF('myschedule').update();PF('eventDialog').hide();} else {PF('eventDialog').show(); }" />
+                        <p:commandButton id="deleteButton" value="Deletar" update="eventDetails" actionListener="#{eventoController.removeEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+                    </h:panelGrid>
+                </h:panelGrid>
+
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:lj="http://xmlns.jcp.org/jsf/composite/components" xmlns:pretty="http://ocpsoft.com/prettyfaces">
+<ui:composition template="/resources/templates/template-core.xhtml">
+    <ui:param name="abaAtual" value="POSTS"/>
+    <ui:define name="cabecalho">
+        <h1>Posts</h1>
+    </ui:define>
+    <ui:define name="conteudo">
+        <h:form id="form">
+            <lj:messages/>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <pretty:link mappingId="post-novo" styleClass="btn btn-default">
+                        <i class="glyphicon glyphicon-plus"></i> novo
+                    </pretty:link>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p:dataTable value="#{postController.posts}" reflow="true" var="post"
+                                 paginator="true" rows="20" paginatorPosition="bottom"
+                                 widgetVar="postTable">
+                        <p:column headerText="Criador" filterMatchMode="contains" filterBy="#{post.usuario.nome}">
+                            #{post.usuario.nome}
+                        </p:column>
+                        <p:column headerText="Título" filterMatchMode="contains" filterBy="#{post.titulo}">
+                            #{post.titulo}
+                        </p:column>
+                        <p:column headerText="Data de Criação" filterMatchMode="contains" filterBy="#{post.dataHoraCriacao}">
+                            <h:outputText value="#{post.dataHoraCriacao}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Tags">
+                            <ui:repeat value="#{of:setToList(post.tags)}" var="tag">
+                                <div class="external-event bg-green">#{tag.titulo}</div>
+                            </ui:repeat>
+                        </p:column>
+
+                        <p:column headerText="Publicado"  style="text-align: center;" filterMatchMode="equals" filterBy="#{post.publicado}">
+                            <f:facet name="filter">
+                                <p:selectOneButton onchange="PF('mensagensTable').filter()">
+                                    <f:converter converterId="javax.faces.Boolean" />
+                                    <f:selectItem itemLabel="Todos" itemValue="" />
+                                    <f:selectItem itemLabel="Sim" itemValue="true" />
+                                    <f:selectItem itemLabel="Não" itemValue="false" />
+                                </p:selectOneButton>
+                            </f:facet>
+
+                            <i class="fa #{post.publicado ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                        </p:column>
+                        <p:column headerText="Ações">
+                            <h:commandLink action="#{postController.setNaoPublicado(post)}"
+                                           styleClass="btn btn-danger btn-block"
+                                           rendered="#{post.publicado}"
+                                           onclick="return confirm('Deseja mesmo retirar o post do ar?');">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Despublicar
+                            </h:commandLink>
+                            <h:commandLink action="#{postController.setPublicado(post)}"
+                                           styleClass="btn btn-success btn-block"
+                                           rendered="#{!post.publicado}"
+                                           onclick="return confirm('Deseja mesmo publicar o post?');">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Publicar
+                            </h:commandLink>
+
+                            <pretty:link mappingId="post" styleClass="btn btn-info btn-block">
+                                <i class="glyphicon glyphicon-pencil"></i> Editar
+                                <f:param value="#{post.id}"/>
+                            </pretty:link>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</html>
