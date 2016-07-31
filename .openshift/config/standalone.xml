@@ -579,5 +579,8 @@
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="localhost" port="25"/>
         </outbound-socket-binding>
+        <outbound-socket-binding name="smtp-mandrillapp">
+            <remote-destination host="smtp.postmarkapp.com" port="587"/>
+        </outbound-socket-binding>
     </socket-binding-group>
 </server>
